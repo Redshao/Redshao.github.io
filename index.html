@@ -268,8 +268,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/29/Angular中ng-bind-html和$sce-trustAsHtml/" itemprop="url">
-                  Angular中ng-bind-html和$sce.trustAsHtml
+                <a class="post-title-link" href="/2016/08/29/ng中ng-bind-html和$sce-trustAsHtml/" itemprop="url">
+                  ng中ng-bind-html和$sce.trustAsHtml
                 </a>
               
             
@@ -312,8 +312,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/29/Angular中ng-bind-html和$sce-trustAsHtml/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/29/Angular中ng-bind-html和$sce-trustAsHtml/" itemprop="commentsCount"></span>
+                <a href="/2016/08/29/ng中ng-bind-html和$sce-trustAsHtml/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/29/ng中ng-bind-html和$sce-trustAsHtml/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -338,7 +338,18 @@
       
         
           
-            
+            <h2 id="ng-bind"><a href="#ng-bind" class="headerlink" title="ng-bind"></a><code>ng-bind</code></h2><ol>
+<li><code>ng-bind</code>绑定可以解决页面初次渲染时瞬间出现模板的语言{{}}，虽然是一瞬间，但是肉眼可以看到的肯定会对用户的交互体验有影响，所以数据利用<code>ng-bind</code>绑定可以改善这个问题，但是<code>ng-bind</code>不能解析html标签，类似原生的innerText，所以有了下面的<code>ng-bind-html</code></li>
+</ol>
+<h2 id="ng-bind-html"><a href="#ng-bind-html" class="headerlink" title="ng-bind-html"></a><code>ng-bind-html</code></h2><ol>
+<li><code>ng-bind-html</code>绑定可以解析数据中出现的html标签，但是直接使用的话控制台会提示安全绑定，所以依赖<code>ngSanitize</code>来解决这个安全绑定<br>tips: <a href="http://code.angularjs.org/1.2.20/angular-sanitize.min.js" target="_blank" rel="external">angular-sanitize</a></li>
+<li>ng-bind-html虽然可以解析html标签和其属性，但是不能解析行内样式(查看页面效果是直接干掉了)，所以有了<code>$sce.trustAsHtml</code></li>
+</ol>
+<h2 id="sce-trustAsHtml"><a href="#sce-trustAsHtml" class="headerlink" title="$sce.trustAsHtml"></a><code>$sce.trustAsHtml</code></h2><ol>
+<li>有时候后端的API会有一些行内样式的数据，<code>$sce.trustAsHtml</code>要使用<code>$sce</code>服务，将转化后的数据在视图中显示后同时也解析其中的style</li>
+</ol>
+<p>具体详情可以查看这篇文章<a href="https://segmentfault.com/a/1190000000639561" target="_blank" rel="external">angular中的ng-bind-html指令和$sce服务</a></p>
+
           
         
       
