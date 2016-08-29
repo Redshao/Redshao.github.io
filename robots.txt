@@ -1,0 +1,5 @@
+# hexo robots.txt
+
+
+Sitemap: http://baiya.me/sitemap.xml
+Sitemap: http://baiya.me/baidusitemap.xml
