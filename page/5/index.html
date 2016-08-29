@@ -268,6 +268,128 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/30/javascript中变量的数据交换/" itemprop="url">
+                  javascript中变量的数据交换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-30T19:40:27+08:00" content="2016-05-30">
+              2016-05-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/30/javascript中变量的数据交换/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/javascript中变量的数据交换/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>js中的变量数据交换实现方式</p>
+<h3 id="1，使用新变量保存"><a href="#1，使用新变量保存" class="headerlink" title="1，使用新变量保存"></a>1，使用新变量保存</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">234</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">231</span>;</span><br><span class="line"><span class="keyword">var</span> newNum = num1; <span class="comment">//用新的变量newNum来保存num1的值</span></span><br><span class="line">num1 = num2;</span><br><span class="line">num2 = newNum;</span><br></pre></td></tr></table></figure>
+<h3 id="2，使用新变量保存两值之和再运算"><a href="#2，使用新变量保存两值之和再运算" class="headerlink" title="2，使用新变量保存两值之和再运算"></a>2，使用新变量保存两值之和再运算</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">234</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">231</span>;</span><br><span class="line"><span class="keyword">var</span> sum = num1+num2;  <span class="comment">//用新的变量sum来保存num1和num2的和</span></span><br><span class="line">num1 = sum-num1;</span><br><span class="line">num2 = sum-num1;</span><br></pre></td></tr></table></figure>
+<h3 id="3，使用原有的变量保存两值之和再运算"><a href="#3，使用原有的变量保存两值之和再运算" class="headerlink" title="3，使用原有的变量保存两值之和再运算"></a>3，使用原有的变量保存两值之和再运算</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">234</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">231</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = num1+num2;  <span class="comment">//用变量num2来保存num1和num2的和</span></span><br><span class="line">num1 = num2-num1;</span><br><span class="line">num2 = num2-num1;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/29/京东首页完结篇/" itemprop="url">
                   京东首页完结篇
                 </a>
@@ -738,137 +860,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/20/再见LOL/" itemprop="url">
-                  再见LOL
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-20T23:01:39+08:00" content="2016-05-20">
-              2016-05-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/故事/" itemprop="url" rel="index">
-                    <span itemprop="name">故事</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/20/再见LOL/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/再见LOL/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>上课期间放假了几天，没事去网吧玩玩，没想到晚上手机上的掌上英雄联盟提示我战斗已开始，我心里一顿，号被盗了，而唯一能盗号的就是我下午去的那家网吧有问题，赶紧改了密码，也没有当回事，第二天一早打开客户端一个醒目的弹窗</p>
-<p><img src="http://www.helloc.cn/wp-content/uploads/2016/05/QQ图片20160520225155.png" alt="封号lol"></p>
-<p>我勒个去，什么鬼？立马去官网查了下被封情况：</p>
-<p><img src="http://www.helloc.cn/wp-content/uploads/2016/05/QQ图片20160520225147.png" alt="lol封号"></p>
-<p>被盗号的用外挂封号了三年，至于原因可能他和我有仇吧，我也懒得找客服了，腾讯的客服都一个味道，你没做错为什么会封你号，要是人人都说被盗号的封号那封号还有啥意思，也许盗号的看出我这段时间的学习比较紧张，希望我能够更用点心吧</p>
-<p>让他操心了</p>
-<p>艹……</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -909,7 +905,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">80</span>
+              <span class="site-state-item-count">81</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -917,7 +913,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -926,7 +922,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

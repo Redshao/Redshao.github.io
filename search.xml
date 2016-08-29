@@ -4,6 +4,12 @@
   
     
     <entry>
+      <title><![CDATA[Angular中ng-bind-html和$sce.trustAsHtml]]></title>
+      <url>http://baiya.me/2016/08/29/Angular%E4%B8%ADng-bind-html%E5%92%8C$sce-trustAsHtml/</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[移动端轮播图插件]]></title>
       <url>http://baiya.me/2016/08/27/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%BD%AE%E6%92%AD%E5%9B%BE%E6%8F%92%E4%BB%B6/</url>
       <content type="html"><![CDATA[<h2 id="mtBanner-js-移动端轮播图插件"><a href="#mtBanner-js-移动端轮播图插件" class="headerlink" title="mtBanner.js 移动端轮播图插件"></a>mtBanner.js 移动端轮播图插件</h2><ol>
