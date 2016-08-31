@@ -268,6 +268,130 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/07/PHP的HTTP_USER_AGENT/" itemprop="url">
+                  PHP的HTTP_USER_AGENT
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-07T15:14:24+08:00" content="2015-12-07">
+              2015-12-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/07/PHP的HTTP_USER_AGENT/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/07/PHP的HTTP_USER_AGENT/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">	if (strpos($_SERVER['HTTP_USER_AGENT'], 'LBBROWSER') !== FALSE) &#123;</span><br><span class="line">		echo '正在使用猎豹浏览器。</span><br><span class="line">';</span><br><span class="line">	&#125;</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
+<p>1用$_SERVER[‘HTTP_USER_AGENT’]系统函数获取当前用户的浏览器标识</p>
+<p>2用strpos函数来判断$_SERVER[‘HTTP_USER_AGENT’]中是否有自己需要的浏览器标识，比如猎豹浏览器的LBBROWSER，其他浏览器都可以判断</p>
+<p>3用if语句来输出自己想要的字符串或者图标（个性化）</p>
+<p>备注：我之前看过一个博客的用户评论，每个用户的评论会有个头像和自己评论使用的浏览器图标，比如火狐、chrome等等，应该用这种函数可以完美实现</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/14/php-fopen/" itemprop="url">
                   php fopen()坑爹
                 </a>
@@ -465,7 +589,7 @@
           
             <p><a href="http://www.helloc.cn/wp-content/uploads/2015/11/133101661702.jpg" target="_blank" rel="external"><img src="http://www.helloc.cn/wp-content/uploads/2015/11/133101661702.jpg" alt="133101661702"></a></p>
 <h3 id="提交的表单"><a href="#提交的表单" class="headerlink" title="提交的表单"></a>提交的表单</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"css/reset.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"index.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">bgcolor</span>=<span class="string">"cccccc"</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span>鞋子价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"shoesprice"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span>衬衫价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"shirtprice"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span>裤子价格<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"pantsprice"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"2"</span> <span class="attr">align</span>=<span class="string">"center"</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit_buy"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">//POST index.html数据并重新赋值</span></span><br><span class="line">	$shoesprice = $_POST[<span class="string">"shoesprice"</span>];</span><br><span class="line">	$shirtprice = $_POST[<span class="string">"shirtprice"</span>];</span><br><span class="line">	$pantsprice = $_POST[<span class="string">"pantsprice"</span>];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//定义shoes、shirt、pants的数量，如果是变量也可使用变量来声明</span></span><br><span class="line">	define(<span class="string">"SHOESQTY"</span>, <span class="number">10</span>);</span><br><span class="line">	define(<span class="string">"SHIRTQTY"</span>, <span class="number">20</span>);</span><br><span class="line">	define(<span class="string">"PANTSQTY"</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//声明一个新的订单总金额变量</span></span><br><span class="line">	$orderprice = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//计算订单的总金额</span></span><br><span class="line">	$orderprice = $shoesprice * SHOESQTY + $shirtprice * SHIRTQTY + $pantsprice * PANTSQTY;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//声明订单的折扣</span></span><br><span class="line">	$orderdiscount = <span class="number">0.10</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//计算订单加上折扣的价格</span></span><br><span class="line">	$orderprice = $orderprice * (<span class="number">1</span> + $orderdiscount);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//输出订单总金额并保留小数点后两位（number_format）</span></span><br><span class="line">	<span class="keyword">echo</span> number_format($orderprice,<span class="number">2</span>).<span class="string">"</span><br><span class="line">"</span>;</span><br><span class="line"></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	//POST index.html数据并重新赋值</span><br><span class="line">	$shoesprice = $_POST["shoesprice"];</span><br><span class="line">	$shirtprice = $_POST["shirtprice"];</span><br><span class="line">	$pantsprice = $_POST["pantsprice"];</span><br><span class="line"></span><br><span class="line">	//定义shoes、shirt、pants的数量，如果是变量也可使用变量来声明</span><br><span class="line">	define("SHOESQTY", 10);</span><br><span class="line">	define("SHIRTQTY", 20);</span><br><span class="line">	define("PANTSQTY", 30);</span><br><span class="line"></span><br><span class="line">	//声明一个新的订单总金额变量</span><br><span class="line">	$orderprice = 0;</span><br><span class="line"></span><br><span class="line">	//计算订单的总金额</span><br><span class="line">	$orderprice = $shoesprice * SHOESQTY + $shirtprice * SHIRTQTY + $pantsprice * PANTSQTY;</span><br><span class="line"></span><br><span class="line">	//声明订单的折扣</span><br><span class="line">	$orderdiscount = 0.10;</span><br><span class="line"></span><br><span class="line">	//计算订单加上折扣的价格</span><br><span class="line">	$orderprice = $orderprice * (1 + $orderdiscount);</span><br><span class="line"></span><br><span class="line">	//输出订单总金额并保留小数点后两位（number_format）</span><br><span class="line">	echo number_format($orderprice,2)."</span><br><span class="line">";</span><br><span class="line"></span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -746,129 +870,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/30/PHP常见问题——来自网络/" itemprop="url">
-                  PHP常见问题——来自网络
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-30T17:17:55+08:00" content="2015-10-30">
-              2015-10-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/10/30/PHP常见问题——来自网络/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/30/PHP常见问题——来自网络/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="http://www.helloc.cn/wp-content/uploads/2015/10/craft-fig.jpg"><img src="http://www.helloc.cn/wp-content/uploads/2015/10/craft-fig-1024x683.jpg" alt="craft-fig"></a></p>
-<p>1,平时喜欢哪些php书籍及博客？CSDN、虎嗅、猎云<br>2,js闭包是什么？<br>3,for与foreach哪个更快?<br>4,php鸟哥是谁？能不能讲一下php执行原理?<br>5,php加速器有哪些？apc、zend、xcache…..能不能讲一下它的加速原理？<br>6,Node.js能彻底代替php+apache是扯淡。<br>7,怎样判断一个值是否存在于数组中？in_array(),array_key_exists,……<br>8,怎样判断select语句中是否使用了索引？explain<br>9,sphinx的中文分词词库使用第三方库还是自己建库？<br>10,如果一个被面试者经验少、基础差，此时却问些高深的知识。要怀疑它的稳定性，可以提问加班对他会不会有抵触。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/30/PHP常见问题——来自网络/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -914,7 +915,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">81</span>
+              <span class="site-state-item-count">82</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -931,7 +932,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">104</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
