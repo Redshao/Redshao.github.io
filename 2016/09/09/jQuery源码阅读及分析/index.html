@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端,jquery,源码阅读," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="白鸦" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="jQuery源码分析前言有时候我在想jQuery为什么可以直接$操作，可以拥有比原生js更便利的DOM操作，而且只要你想就可以直接链式操作下去
+核心框架揭开一万多行代码的jQuery核心代码：123456789101112(function(window, undefined) &amp;#123;	function jQuery(selector)&amp;#123;		return new jQuery.fn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery源码阅读及分析">
+<meta property="og:url" content="http://baiya.me/2016/09/09/jQuery源码阅读及分析/index.html">
+<meta property="og:site_name" content="白鸦">
+<meta property="og:description" content="jQuery源码分析前言有时候我在想jQuery为什么可以直接$操作，可以拥有比原生js更便利的DOM操作，而且只要你想就可以直接链式操作下去
+核心框架揭开一万多行代码的jQuery核心代码：123456789101112(function(window, undefined) &amp;#123;	function jQuery(selector)&amp;#123;		return new jQuery.fn">
+<meta property="og:updated_time" content="2016-09-09T08:23:47.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery源码阅读及分析">
+<meta name="twitter:description" content="jQuery源码分析前言有时候我在想jQuery为什么可以直接$操作，可以拥有比原生js更便利的DOM操作，而且只要你想就可以直接链式操作下去
+核心框架揭开一万多行代码的jQuery核心代码：123456789101112(function(window, undefined) &amp;#123;	function jQuery(selector)&amp;#123;		return new jQuery.fn">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6287376957692708000,
+      author: '作者'
+    }
+  };
+</script>
+
+  <title> jQuery源码阅读及分析 | 白鸦 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">白鸦</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">True or False</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery源码阅读及分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-09T16:21:27+08:00" content="2016-09-09">
+              2016-09-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/源码阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">源码阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/09/jQuery源码阅读及分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/09/jQuery源码阅读及分析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="jQuery源码分析"><a href="#jQuery源码分析" class="headerlink" title="jQuery源码分析"></a>jQuery源码分析</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有时候我在想jQuery为什么可以直接$操作，可以拥有比原生js更便利的DOM操作，而且只要你想就可以直接链式操作下去</p>
+<h2 id="核心框架"><a href="#核心框架" class="headerlink" title="核心框架"></a>核心框架</h2><h3 id="揭开一万多行代码的jQuery核心代码："><a href="#揭开一万多行代码的jQuery核心代码：" class="headerlink" title="揭开一万多行代码的jQuery核心代码："></a>揭开一万多行代码的jQuery核心代码：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(function(window, undefined) &#123;</span><br><span class="line">	function jQuery(selector)&#123;</span><br><span class="line">		return new jQuery.fn.init(selector)</span><br><span class="line">	&#125;</span><br><span class="line">	jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">		init: function () &#123;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line">	window.jQuery = window.$ = jQuery;</span><br><span class="line">&#125;)(window)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>闭包结构传参window<ul>
+<li>闭包结构传入实参window，然后里面用形参接收<ul>
+<li>减少内部每次引用window的查询时间</li>
+<li>方便压缩代码</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>形参undefined<ul>
+<li>因为ie低版本的浏览器可以给undefined赋值成功，所以为了保证undefined的纯洁给它一个形参的位置而没有实参，保证了它一定是undefined</li>
+</ul>
+</li>
+<li>jQuery传参selector<ul>
+<li>selector可以是一对标签，可以是id、类、后代、子代等等，可以是jQuery对象，</li>
+</ul>
+</li>
+<li>jQuery原型对象赋值<ul>
+<li>方便扩展jQuery的原型方法</li>
+</ul>
+</li>
+<li>return 实例化原型方法init<ul>
+<li>其实就是为了我们每次使用$不用new $();</li>
+<li>为什么jQuery要new自己的原型方法呢，因为不new自己的就要new其他的函数返回，那干嘛不自己利用自己</li>
+</ul>
+</li>
+<li>jQuery原型对象赋值给jQuery原型方法init的原型<ul>
+<li>因为内部给jQuery原型每扩展一个方法init也会有该方法，是不是很酷炫，init有了那么$()出来的jQuery对象是不是也有啦</li>
+</ul>
+</li>
+<li>给window暴露可利用成员jQuery,$<ul>
+<li>给window暴露后那么全局都可以直接使用了jQuery和$了</li>
+<li>至于为什么有$,因为短啊，当然你也可以每次jQuery()来使用</li>
+</ul>
+</li>
+</ul>
+<h2 id="御用选择器-Sizzle"><a href="#御用选择器-Sizzle" class="headerlink" title="御用选择器-Sizzle"></a>御用选择器-Sizzle</h2><ul>
+<li>Sizzle也是jQuery的根本，当然了你也单独使用Sizzle</li>
+<li>上面说过$(selector)的参数selector可以是id、类、后代、子代等等，可以是jQuery对象,那么咱们每次$一下就可以心想事成的得到我们想要的jQuery对象是怎么办到的呢，没错，就是因为Sizzle，Sizzle封装了获取各种dom对象的方法，并且会把他们包装成jQuery对象</li>
+<li>浏览器能力测试<ul>
+<li>Sizzle内部有个support对象，support对象存储着正则测试浏览器能力的结果</li>
+<li>对于有能力问题的选择器使用通用兼容方案解决（繁琐的判断代码）</li>
+</ul>
+</li>
+<li>正则<ul>
+<li>正则表达式在jQuery中使用的还是比较多的，正则的使用可以很大的提交我们对数据的处理效率</li>
+</ul>
+</li>
+<li>判断<ul>
+<li>判断是在init内部判断selector的类型，<ul>
+<li>列如可能是个html标签，那么直接create一个selector标签的DOM对象包装成jQuery对象return出去</li>
+<li>列如可能是个id名、类名、标签名等等，那么直接通过Sizzle获取到DOM对象包装成jQuery对象return出去</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>包装<ul>
+<li>我已经说了很多次的包装了，没错，jQuery对象其实也是个伪数组，这也是它的设计巧妙之处，因为用数组存储数据方便我们去进行更多的数据处理，比如<code>$(&quot;div&quot;).css(&quot;color&quot;: &quot;red&quot;)</code>,那么jQuery会自动帮我们隐式迭代、再给页面上所有div包含的文字颜色设置为red,简单粗暴的一行代码搞定简直是程序猿的最爱</li>
+</ul>
+</li>
+</ul>
+<h2 id="对外扩展-extend"><a href="#对外扩展-extend" class="headerlink" title="对外扩展-extend"></a>对外扩展-extend</h2><ul>
+<li>jQuery核心的结构处理完毕之后基本上就可以对外使用了，但是我们知道我们是可以基于jQuery来实现插件的，包括jQuery自己可扩展性也必须要求他要对外提供一个接口方便进行二次开发，所以有了extend方法</li>
+<li>简单的extend就是混入，列子:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function extend(obj) &#123;</span><br><span class="line">        var k;</span><br><span class="line">        for(k in obj) &#123;</span><br><span class="line">            this[k] = obj[k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Baiya.extend = extend;</span><br><span class="line">    Baiya.fn.extend = extend;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对静态方法的和实例方法的扩展都要有，比如each方法，可以$.each来使用，也可以是$(“div”).each来使用</p>
+<ul>
+<li>之后jQuery一些方法都是基于extend来扩展的，当然我们自己也可以基于jQuery扩展方法</li>
+</ul>
+<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
+<li>DOM操作也是jQuery的一大特点，因为它太好用了，包含了我们所能想到的所有使用场景，完善了增删查改常用的方法</li>
+<li>jQuery获取和设置类的方法如html()/css()/val()等等这些传参是设置值不传参是获取值</li>
+</ul>
+<p>##链式编程</p>
+<ul>
+<li>jQuery是支持链式编程的，只要你想你就可以一行代码写完所有的功能，这是怎么做到的呢</li>
+<li>每一个改变原型链的方法都会把当前的this对象保存成他自己的属性，然后可以调用end方法找到上一级链从而方便我们可以进行链式操作</li>
+</ul>
+<h2 id="事件操作"><a href="#事件操作" class="headerlink" title="事件操作"></a>事件操作</h2><ul>
+<li>jQuery的事件操作一般可以通过click类(mouseover/mouseleave等等)和on来使用，但是click类的实现是调用on的</li>
+<li>on的实现是对原生的onclick类的处理，因为相同的原生的事件在同一个DOM对象上只能被绑定一次，如果再次绑定会覆盖掉上一次的，所以jQuery帮我们封装了事件的存储，把相同的事件分成一个数组存储在一个对象里面，然后对数组进行遍历，依次调用数组里存储的每个方法</li>
+<li>on实现之后会把所有的事件处理字符串处理一下用on来改造一下，如下:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Baiya.each((&quot;onclick,onmousedown,onmouseenter,onmouseleave,&quot; +</span><br><span class="line">    &quot;onmousemove,onmouseout,onmouseover,onmouseup,onfocus,&quot; +</span><br><span class="line">    &quot;onmousewheel,onkeydown,onkeypress,onkeyup,onblur&quot;).split(&quot;,&quot;),     function (i, v) &#123;</span><br><span class="line">        var event = v.slice(2);</span><br><span class="line">        Baiya.fn[event] = function (callback) &#123;</span><br><span class="line">            return this.on(event, callback);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="属性操作"><a href="#属性操作" class="headerlink" title="属性操作"></a>属性操作</h2><ul>
+<li>jQuery也提供给了我们方便的属性操作，底层就是对原生方法的包装，处理兼容性问题，如果jQuery不对IE浏览器的兼容处理的话，那么它的代码量可能会缩一半，当然锅不能全部甩给IE，比如innerText方法火狐是不支持的，但是支持textContent方法，所以jQuery会尽可能的处理这种浏览器带来的差异</li>
+</ul>
+<h2 id="样式操作"><a href="#样式操作" class="headerlink" title="样式操作"></a>样式操作</h2><ul>
+<li>基本思想如上</li>
+</ul>
+<h2 id="Ajax操作"><a href="#Ajax操作" class="headerlink" title="Ajax操作"></a>Ajax操作</h2><ul>
+<li><p>Ajax可以说是前端的跨越性进步，毫不夸张的说如果没有Ajax的发展，那么今天的前端可能不叫前端，可能是美工……</p>
+</li>
+<li><p>Ajax是什么？</p>
+<ul>
+<li>在我的理解来看Ajax就是一个方法，这个方法遵循着http协议的规范，我们可以使用这个方法来向服务器请求少量的数据，有了数据之后我们就可以操作DOM来达到局部更新网页的目的，这是一个非常酷的事情</li>
+</ul>
+</li>
+<li>jQuery的Ajax是基于XMLHttpRequest的封装，当然了他也有兼容性问题，具体的封装见我之前的文章<a href="http://baiya.me/2016/07/24/%E7%AE%80%E5%8D%95%E7%9A%84ajax%E5%B0%81%E8%A3%85/">简单的ajax封装</a></li>
+<li>具体就是区别get和post请求的区别，get请求的传参是直接拼接在url结尾，而post请求需要在send()里面传递，并且post请求还要设置请求头setRequestHeader(“content-type”, “application/x-www-form-urlencoded”)</li>
+<li>请求后对json或者text或者xml的数据进行处理就可以渲染到页面了</li>
+</ul>
+<h2 id="提到Ajax就不得不提到跨域了"><a href="#提到Ajax就不得不提到跨域了" class="headerlink" title="提到Ajax就不得不提到跨域了"></a>提到Ajax就不得不提到跨域了</h2><ul>
+<li>跨域简单的来说限制了非同源（ip/域名/端口/协议）的数据交互，当然这肯定是极好的，因为如果不限制那么你的网页别人也可以操作是不是很恐怖</li>
+<li>但是有些情况下我们需要调用别人的服务器数据，而且别人也愿意怎么办呢，程序员是很聪明的，html标签中img，script，link等一些带有src属性的标签是可以请求外部资源的，img和link得到的数据是不可用的，只有script标签请求的数据我们可以通过函数来接收，函数的参数传递可以是任何类型，所以创建一个函数，来接收，参数就是请求到的数据，而对方的数据也要用该函数来调用就可以实现跨域了</li>
+<li>简单封装jsonp实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// url是请求的接口</span><br><span class="line">// params是传递的参数</span><br><span class="line">// fn是回调函数</span><br><span class="line">function jsonp(url, params, fn)&#123;</span><br><span class="line">			// cbName实现给url加上哈希，防止同一个地址请求出现缓存</span><br><span class="line">            var cbName = `jsonp_$&#123;(Math.random() * Math.random()).toString().substr(2)&#125;`;</span><br><span class="line">            window[cbName] = function (data) &#123;</span><br><span class="line">                fn(data);</span><br><span class="line">                // 获取数据后移除script标签</span><br><span class="line">                window.document.body.removeChild(scriptElement);</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            // 组合最终请求的url地址</span><br><span class="line">            var querystring = &apos;&apos;;</span><br><span class="line">            for (var key in params) &#123;</span><br><span class="line">                querystring += `$&#123;key&#125;=$&#123;params[key]&#125;&amp;`;</span><br><span class="line">            &#125;</span><br><span class="line">            // 告诉服务端我的回调叫什么</span><br><span class="line">            querystring += `callback=$&#123;cbName&#125;`;</span><br><span class="line"></span><br><span class="line">            url = `$&#123;url&#125;?$&#123;querystring&#125;`;</span><br><span class="line"></span><br><span class="line">            // 创建一个script标签，并将src设置为url地址</span><br><span class="line">            var scriptElement = window.document.createElement(&apos;script&apos;);</span><br><span class="line">            scriptElement.src = url;</span><br><span class="line">            // appendChild(执行)</span><br><span class="line">            window.document.body.appendChild(scriptElement);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Animate"><a href="#Animate" class="headerlink" title="Animate"></a>Animate</h2><ul>
+<li><p>很抱歉的是jQuery的动画源码我并没有阅读，但是我自己封装了一个动画函数，之后的源码阅读会补上的</p>
+</li>
+<li><p>封装的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">// element设置动画的DOM对象</span><br><span class="line">// attrs设置动画的属性	object</span><br><span class="line">// fn是回调函数</span><br><span class="line">function animate(element, attrs, fn) &#123;</span><br><span class="line">        //清除定时器</span><br><span class="line">        if(element.timerId) &#123;</span><br><span class="line">            clearInterval(element.timerId);</span><br><span class="line">        &#125;</span><br><span class="line">        element.timerId = setInterval(function () &#123;</span><br><span class="line">            //设置开关</span><br><span class="line">            var stop = true;</span><br><span class="line">            //遍历attrs对象，获取所有属性</span><br><span class="line">            for(var k in attrs) &#123;</span><br><span class="line">                //获取样式属性 对应的目标值</span><br><span class="line">                var target = parseInt(attrs[k]);</span><br><span class="line">                var current = 0;</span><br><span class="line">                var step = 0;</span><br><span class="line">                //判断是否是要修改透明度的属性</span><br><span class="line">                if(k === &quot;opacity&quot;) &#123;</span><br><span class="line">                    current = parseFloat( getStyle(element, k)) * 100 || 0;</span><br><span class="line">                    target = target * 100;</span><br><span class="line">                    step = (target - current) / 10;</span><br><span class="line">                    step = step &gt; 0 ? Math.ceil(step) : Math.floor(step);</span><br><span class="line">                    current += step;</span><br><span class="line">                    element.style[k] = current / 100;</span><br><span class="line">                    //兼容ie</span><br><span class="line">                    element.style[&quot;filter&quot;] = &quot;alpha(opacity=&quot;+  current +&quot;)&quot;;</span><br><span class="line">                &#125;else if(k === &quot;zIndex&quot;) &#123;</span><br><span class="line">                    element.style[k] = target;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //获取任意样式属性的值，如果转换数字失败，返回为0</span><br><span class="line">                    current = parseInt(getStyle(element, k)) || 0;</span><br><span class="line">                    step = (target - current) / 10;</span><br><span class="line">                    console.log(&quot;current:&quot; + current + &quot;  step:&quot; + step);</span><br><span class="line">                    step = step &gt; 0 ? Math.ceil(step) : Math.floor(step);</span><br><span class="line">                    current += step;</span><br><span class="line">                    //设置任意样式属性的值</span><br><span class="line">                    element.style[k] = current + &quot;px&quot;;</span><br><span class="line">                &#125;</span><br><span class="line">                if(step !== 0) &#123;</span><br><span class="line">                    //如果有一个属性的值没有到达target  ，设置为false</span><br><span class="line">                    stop = false;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            //如果所有属性值都到达target  停止定时器</span><br><span class="line">            if(stop) &#123;</span><br><span class="line">                clearInterval(element.timerId);</span><br><span class="line">                //动画执行完毕  回调函数</span><br><span class="line">                if(fn) &#123;</span><br><span class="line">                    fn();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,30);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取计算后的样式的值</span><br><span class="line">    function getStyle(element, attr) &#123;</span><br><span class="line">        //能力检测</span><br><span class="line">        if(window.getComputedStyle) &#123;</span><br><span class="line">            return window.getComputedStyle(element, null)[attr];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return element.currentStyle[attr];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>还有很多方面理解的不是很深刻</li>
+<li>jQuery的源码值得所有程序员学习</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag">#前端</a>
+          
+            <a href="/tags/jquery/" rel="tag">#jquery</a>
+          
+            <a href="/tags/源码阅读/" rel="tag">#源码阅读</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/31/angular实现——当前导航高亮和选中高亮/" rel="next" title="angular实现——当前导航高亮和选中高亮">
+                <i class="fa fa-chevron-left"></i> angular实现——当前导航高亮和选中高亮
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/09/jQuery源码阅读及分析/"
+           data-title="jQuery源码阅读及分析" data-url="http://baiya.me/2016/09/09/jQuery源码阅读及分析/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="白鸦" />
+          <p class="site-author-name" itemprop="name">白鸦</p>
+          <p class="site-description motion-element" itemprop="description">我若成魔 佛奈我何</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Redshao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="twitter" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/baiyame" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/helloc-cn" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jQuery源码分析"><span class="nav-number">1.</span> <span class="nav-text">jQuery源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心框架"><span class="nav-number">1.2.</span> <span class="nav-text">核心框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#揭开一万多行代码的jQuery核心代码："><span class="nav-number">1.2.1.</span> <span class="nav-text">揭开一万多行代码的jQuery核心代码：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#御用选择器-Sizzle"><span class="nav-number">1.3.</span> <span class="nav-text">御用选择器-Sizzle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对外扩展-extend"><span class="nav-number">1.4.</span> <span class="nav-text">对外扩展-extend</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM操作"><span class="nav-number">1.5.</span> <span class="nav-text">DOM操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件操作"><span class="nav-number">1.6.</span> <span class="nav-text">事件操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性操作"><span class="nav-number">1.7.</span> <span class="nav-text">属性操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样式操作"><span class="nav-number">1.8.</span> <span class="nav-text">样式操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ajax操作"><span class="nav-number">1.9.</span> <span class="nav-text">Ajax操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提到Ajax就不得不提到跨域了"><span class="nav-number">1.10.</span> <span class="nav-text">提到Ajax就不得不提到跨域了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Animate"><span class="nav-number">1.11.</span> <span class="nav-text">Animate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.12.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">白鸦</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"baiyame"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
