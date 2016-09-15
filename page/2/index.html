@@ -268,6 +268,132 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/18/深入理解jquery的选择器引擎Sizzle/" itemprop="url">
+                  深入理解jquery的选择器引擎Sizzle
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T01:27:57+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/18/深入理解jquery的选择器引擎Sizzle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/18/深入理解jquery的选择器引擎Sizzle/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Sizzle"><a href="#Sizzle" class="headerlink" title="Sizzle"></a>Sizzle</h2><p>Sizzle是jquery的御用选择器引擎，并且Sizzle可以是一个独立的模块，速度号称业内第一，平时用jquery选择器简直可以让操作提升不止一个档次，所以正好最近有时间就开始分析jquery源码，首当其冲的就是其中最重要的选择器引擎</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by boolean on 2016/8/15.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">var</span> select = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明</span></span><br><span class="line">    <span class="keyword">var</span> select,</span><br><span class="line">        support = &#123;&#125;,</span><br><span class="line">        push = <span class="built_in">Array</span>.prototype.push;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//1. 浏览器能力检测</span></span><br><span class="line">    <span class="comment">//2. 如果可以使用系统方法就使用系统的</span></span><br><span class="line">    <span class="comment">//3. 否则就是自己来封装实现</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//浏览器支持</span></span><br><span class="line">    <span class="comment">//定义一个支持的集合（集合有很多支持的boolean）</span></span><br><span class="line">    <span class="comment">//定义一个检测者（正则）</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> rNative = <span class="regexp">/function.*\(.*\).*\&#123;.*\[native code\].*\&#125;/</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检测</span></span><br><span class="line">    <span class="comment">// 检测系统是否支持querySelectorAll</span></span><br><span class="line">    support.qsa = rNative.test(<span class="built_in">document</span>.querySelectorAll + <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检测系统是否支持document.getElementsByClassName</span></span><br><span class="line">    support.getElementsByClassName1 = rNative.test(<span class="built_in">document</span>.getElementsByClassName + <span class="string">""</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检测系统是否支持div.getElementsByClassName</span></span><br><span class="line">    <span class="comment">// div.getElementsByClassName和document.getElementsByClassName不是来自同一个原型链</span></span><br><span class="line">    <span class="keyword">var</span> div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">    support.getElementsByClassName2 = rNative.test(div.getElementsByTagName + <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//检测系统是否支持indexOf方法</span></span><br><span class="line">    support.indexOf = rNative.test(<span class="built_in">Array</span>.prototype.indexOf);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//自定义indexOf方法</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">indexOf</span>(<span class="params">arr, value, index</span>) </span>&#123;</span><br><span class="line">        index = index || <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(support.indexOf) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr.indexOf(value, index);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = index; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[i] === value) &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//自定义push方法</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        push.apply([], <span class="built_in">document</span>.getElementsByTagName(<span class="string">"*"</span>));</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        push = &#123;</span><br><span class="line">            apply: <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; b.length; i++) &#123;</span><br><span class="line">                    a[a.length++] = b[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> a.length;</span><br><span class="line">            &#125;,</span><br><span class="line">            call: <span class="function"><span class="keyword">function</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">var</span> args = [].slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">this</span>.apply(a, args);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//数组去重</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> newArr = [];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(indexOf(newArr, arr[i]) === <span class="number">-1</span>) &#123;</span><br><span class="line">                newArr.push(arr[i])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> newArr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//兼容旧环境 MDN</span></span><br><span class="line">    <span class="comment">//trim方法兼容</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">String</span>.prototype.trim) &#123;</span><br><span class="line">        <span class="built_in">String</span>.prototype.trim = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g</span>, <span class="string">''</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//封装获取类名dom对象的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getByClass</span>(<span class="params">classname, node</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//声明</span></span><br><span class="line">        <span class="keyword">var</span> arr= [],</span><br><span class="line">            lists = node.getElementsByTagName;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(node == <span class="built_in">document</span> &amp;&amp; support.getElementsByClassName1 || node.nodeType == <span class="number">1</span> &amp;&amp; support.getElementsByClassName2) &#123;</span><br><span class="line">            <span class="keyword">return</span> node.getElementsByClassName(classname);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lists.length; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(indexOf(lists[i].getAttribute(<span class="string">"class"</span>).split(<span class="string">" "</span>)) != <span class="number">-1</span>) &#123;</span><br><span class="line">                    arr.push(lists[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> arr;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//querySelectorAll封装</span></span><br><span class="line"></span><br><span class="line">    select = <span class="function"><span class="keyword">function</span> (<span class="params">selector, node, results</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(support.qsa) &#123;</span><br><span class="line">            push.apply(results, node.querySelectorAll(selector));</span><br><span class="line">            <span class="keyword">return</span> results;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mySelect(selector, node, results);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取对象的封装</span></span><br><span class="line">    <span class="comment">//封装获取标签</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">t</span>(<span class="params">tagName, node, results</span>) </span>&#123;</span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line">        push.apply(results, node.getElementsByTagName(tagName));</span><br><span class="line">        <span class="keyword">return</span> results;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//封装获取类名</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params">className, node, results</span>) </span>&#123;</span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line">        push.apply(results, getByClass(className, node));</span><br><span class="line">        <span class="keyword">return</span> results;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//封装获取id</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">id</span>(<span class="params">idName, node, results</span>) </span>&#123;</span><br><span class="line">        results = results || [];</span><br><span class="line">        <span class="keyword">var</span> dom = <span class="built_in">document</span>.getElementById(idName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(dom) &#123;</span><br><span class="line">            <span class="comment">//怎样使用apply方法</span></span><br><span class="line">            <span class="comment">// results[results.length++] = dom;</span></span><br><span class="line">            push.call(results, dom);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> results;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//封装含有,的选择符</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">mySelect</span>(<span class="params">selector, node, results</span>) </span>&#123;</span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> lists = selector.split(<span class="string">","</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lists.length; i++) &#123;</span><br><span class="line">            select1(lists[i].trim(), node, results)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> unique(results);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//封装后代选择器</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">select2</span>(<span class="params">selector, node, results</span>) </span>&#123;</span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将选择器字符串转化成数组</span></span><br><span class="line">        <span class="keyword">var</span> lists = selector.replace(<span class="regexp">/\s+/g</span>, <span class="string">" "</span>).split(<span class="string">" "</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//用res1和res2变量的循环遍历</span></span><br><span class="line">        <span class="keyword">var</span> res1 = [node],</span><br><span class="line">            res2 = [];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; lists.length; i++) &#123;</span><br><span class="line">            res2 = res1;</span><br><span class="line"></span><br><span class="line">            res1 = [];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; res2.length; j++) &#123;</span><br><span class="line">                select1(lists[i], res2[j], res1)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">select1</span>(<span class="params">selector, node, results</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> first = selector.charAt(<span class="number">0</span>);</span><br><span class="line">        results = results || [];</span><br><span class="line">        node = node || <span class="built_in">document</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//处理selector含有空格的情况</span></span><br><span class="line">        <span class="keyword">if</span>(selector.split(<span class="string">" "</span>).length === <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(selector === <span class="string">"*"</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> t(selector, node, results);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(first === <span class="string">"#"</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> id(selector.slice(<span class="number">1</span>), node, results);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(first === <span class="string">"."</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> c(selector.slice(<span class="number">1</span>), node, results);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> t(selector, node, results);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//处理后代选择器</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="regexp">/^[#\.\w\d\_\-]+(\s+[#\.\w\d\_\-]+)+$/</span>.test( selector )) &#123;</span><br><span class="line">                <span class="keyword">var</span> temp = select2(selector,node, results);</span><br><span class="line"></span><br><span class="line">                push.apply(results, temp);</span><br><span class="line">                <span class="keyword">return</span> results;</span><br><span class="line">                </span><br><span class="line"></span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"该选择器目前还不支持"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//闭包，将select的实现return出去</span></span><br><span class="line">    <span class="keyword">return</span> select;</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<ol>
+<li>目前自己实现的选择器引擎select()实现标签，类和ID选择器的，并且支持并集和后代选择器，兼容IE低版本</li>
+<li>很多细节处理的不够完美，只能在实际使用中慢慢的完善</li>
+<li>预留了额外的选择器接口，可以扩展子代等选择器的实现</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/07/递归算法的性能问题/" itemprop="url">
                   递归算法的性能问题
                 </a>
@@ -772,145 +898,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/01/js的深拷贝和浅拷贝/" itemprop="url">
-                  js的深拷贝和浅拷贝
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-01T19:32:35+08:00" content="2016-08-01">
-              2016-08-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/01/js的深拷贝和浅拷贝/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/01/js的深拷贝和浅拷贝/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>为什么会有浅拷贝和深拷贝这个概念</p>
-<ul>
-<li>值类型和引用类型在内存中的存储方式不同<ul>
-<li>值类型的变量名直接存储数据</li>
-<li>引用类型的变量名存储着数据的内存地址，而数据单独在一块内存中</li>
-</ul>
-</li>
-<li>针对引用类型数据<ul>
-<li>如果针对的是值类型，而值类型在内存的存储特征不存在浅拷贝和深拷贝</li>
-</ul>
-</li>
-<li>拷贝的新数据和原有数据实现内存分离</li>
-</ul>
-<h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><p>浅拷贝就是=号赋值，值类型每次浅拷贝都会多一个变量存储新的数据，而引用类型会多一个变量但是存储的还是原有数据的内存地址，原有数据中的引用类型数据发生变化，新数据也会发生变化</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//原有数据</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;name: <span class="string">"白鸦"</span>, age: <span class="number">18</span>&#125;;</span><br><span class="line"><span class="comment">//新数据</span></span><br><span class="line"><span class="keyword">var</span> o1 = o;</span><br></pre></td></tr></table></figure>
-<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><p>深拷贝针对引用类型的数据会用新的变量指向一个新的内存地址，新的内存地址存着原有数据</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//原有数据</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;name: <span class="string">"白鸦"</span>, age: <span class="number">18</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//新数据</span></span><br><span class="line"><span class="keyword">var</span> o1 = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> o) &#123;</span><br><span class="line">	o1[k] = o[k];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="代码复用性"><a href="#代码复用性" class="headerlink" title="代码复用性"></a>代码复用性</h3><p>如果引用类型里面有引用类型……，可以封装一个函数来实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!obj || <span class="keyword">typeof</span> obj !== <span class="string">"object"</span>) &#123;</span><br><span class="line">    	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">	<span class="keyword">var</span> temp = &#123;&#125;;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> obj) &#123;</span><br><span class="line">		temp[k] = <span class="keyword">typeof</span> obj[k] === <span class="string">"object"</span> ? deepCopy(obj[k]) : obj[k];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样就可以很愉快的折腾新数据了！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -956,7 +943,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -973,7 +960,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
