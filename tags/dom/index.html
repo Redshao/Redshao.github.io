@@ -89,7 +89,7 @@
 <meta name="description" content="我若成魔 佛奈我何">
 <meta property="og:type" content="website">
 <meta property="og:title" content="白鸦">
-<meta property="og:url" content="http://baiya.me/tags/DOM/index.html">
+<meta property="og:url" content="http://baiya.me/tags/dom/index.html">
 <meta property="og:site_name" content="白鸦">
 <meta property="og:description" content="我若成魔 佛奈我何">
 <meta name="twitter:card" content="summary">
@@ -112,7 +112,7 @@
   };
 </script>
 
-  <title> 标签: DOM | 白鸦 </title>
+  <title> 标签: dom | 白鸦 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +247,7 @@
   <div id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        DOM
+        dom
         <small>标签</small>
       </h2>
     </div>
@@ -260,9 +260,9 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/2016/06/06/js的基础学习和DOM初体验/" itemprop="url">
+            <a class="post-title-link" href="/2016/06/10/js模拟数据实现百度搜索栏匹配特技/" itemprop="url">
               
-                <span itemprop="name">js的基础学习和DOM初体验</span>
+                <span itemprop="name">js模拟数据实现百度搜索栏匹配特技</span>
               
             </a>
         
@@ -270,9 +270,37 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-06T00:54:29+08:00"
-              content="2016-06-06" >
-          06-06
+              datetime="2016-06-10T19:47:29+08:00"
+              content="2016-06-10" >
+          06-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
+        
+            <a class="post-title-link" href="/2016/06/10/js实现全选和反选/" itemprop="url">
+              
+                <span itemprop="name">js实现全选和反选</span>
+              
+            </a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-06-10T19:20:45+08:00"
+              content="2016-06-10" >
+          06-10
         </time>
       </div>
 
@@ -322,7 +350,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">80</span>
+              <span class="site-state-item-count">81</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -330,7 +358,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -339,7 +367,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -653,42 +681,6 @@
                 str += "</ul>";
                 if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
                 if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-                $resultContent.innerHTML = str;
-            });
-            proceedsearch();
-        }
-    });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').mousedown(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
-
-  
-
-  
-
-  
-
-</body>
-</html>
- class="fa fa-search fa-5x" /></div>' }
                 $resultContent.innerHTML = str;
             });
             proceedsearch();
